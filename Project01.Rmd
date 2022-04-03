@@ -59,5 +59,9 @@ s
 ```
 
 ```{r}
-print("Hello World")
+library(dplyr)
+library(ggplot2)
+data <- read.csv('Superstore.csv')
+head(data)
+
 ```
