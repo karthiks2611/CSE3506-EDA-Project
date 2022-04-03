@@ -63,5 +63,5 @@ library(dplyr)
 library(ggplot2)
 data <- read.csv('Superstore.csv')
 head(data)
-
+data_profit = data[,c("Customer.Name","Profit")]
 ```
