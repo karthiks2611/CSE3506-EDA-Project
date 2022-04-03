@@ -63,9 +63,25 @@ library(dplyr)
 library(ggplot2)
 library(factoextra)
 data <- read.csv('Superstore.csv')
-data_profit = data[,c("Customer.Name","Profit")]
-avg_profit = data_profit %>% group_by(Customer.Name) %>% summarise(median(Profit))
-avg_profit = as.data.frame(avg_profit)
-colnames(avg_profit) = c("Customer Name","Profit")
-
+data_activity = data[,c("Region","Profit","Sales")]
+transactions = data_activity %>% group_by(Region) %>% summarise(median(Profit),median(Sales))
+transactions = as.data.frame(transactions)
+colnames(transactions) = c("Region","Profit","Sales")
+kms = kmeans(transactions[,c(2,3)],centers = 2)
+rownames(transactions) = c(transactions$Region)
+fviz_cluster(kms,data = transactions[,c(2,3)])
+data_activity1 = data[,c("Segment","Profit","Sales")]
+transactions1 = data_activity1 %>% group_by(Segment) %>% summarise(median(Profit),median(Sales))
+transactions1 = as.data.frame(transactions1)
+colnames(transactions1) = c("Segment","Profit","Sales")
+kms1 = kmeans(transactions1[,c(2,3)],centers = 2)
+rownames(transactions1) = c(transactions1$Segment)
+fviz_cluster(kms1,data = transactions1[,c(2,3)])
+data_activity = data[,c("Sub.Category","Profit","Sales")]
+transactions2 = data_activity %>% group_by(Sub.Category) %>% summarise(median(Profit),median(Sales))
+transactions2 = as.data.frame(transactions2)
+colnames(transactions2) = c("Sub.Category","Profit","Sales")
+kms2 = kmeans(transactions2[,c(2,3)],centers = 2)
+rownames(transactions2) = c(transactions2$Sub.Category)
+fviz_cluster(kms2,data = transactions2[,c(2,3)])
 ```
