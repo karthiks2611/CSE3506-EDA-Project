@@ -61,7 +61,11 @@ s
 ```{r}
 library(dplyr)
 library(ggplot2)
+library(factoextra)
 data <- read.csv('Superstore.csv')
-head(data)
 data_profit = data[,c("Customer.Name","Profit")]
+avg_profit = data_profit %>% group_by(Customer.Name) %>% summarise(median(Profit))
+avg_profit = as.data.frame(avg_profit)
+colnames(avg_profit) = c("Customer Name","Profit")
+
 ```
