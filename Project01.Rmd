@@ -60,28 +60,63 @@ s
 
 ```{r}
 library(dplyr)
+
 library(ggplot2)
+
 library(factoextra)
+
+#Loading the dataset
 data <- read.csv('Superstore.csv')
+
+#Selecting required Columns
 data_activity = data[,c("Region","Profit","Sales")]
+
+#Finding median profit and sales for different regions
 transactions = data_activity %>% group_by(Region) %>% summarise(median(Profit),median(Sales))
 transactions = as.data.frame(transactions)
 colnames(transactions) = c("Region","Profit","Sales")
+
+#Finding clusters using kmeans.Numerical measures used are median sales and median profit 
 kms = kmeans(transactions[,c(2,3)],centers = 2)
+
 rownames(transactions) = c(transactions$Region)
+
+#Visualizing the clusters
 fviz_cluster(kms,data = transactions[,c(2,3)])
+
+#Selecting required Columns
 data_activity1 = data[,c("Segment","Profit","Sales")]
+
+
+#Finding median profit and sales for different Customer Segment
 transactions1 = data_activity1 %>% group_by(Segment) %>% summarise(median(Profit),median(Sales))
 transactions1 = as.data.frame(transactions1)
 colnames(transactions1) = c("Segment","Profit","Sales")
+
+#Finding clusters using kmeans.Numerical measures used are median sales and median profit
 kms1 = kmeans(transactions1[,c(2,3)],centers = 2)
+
+
 rownames(transactions1) = c(transactions1$Segment)
+
+#Visualizing the clusters
 fviz_cluster(kms1,data = transactions1[,c(2,3)])
+
+
+#Selecting required Columns
 data_activity = data[,c("Sub.Category","Profit","Sales")]
+
+
+#Finding median profit and sales for different Product Sub Category
 transactions2 = data_activity %>% group_by(Sub.Category) %>% summarise(median(Profit),median(Sales))
 transactions2 = as.data.frame(transactions2)
 colnames(transactions2) = c("Sub.Category","Profit","Sales")
+
+#Finding clusters using kmeans.Numerical measures used are median sales and median profit
 kms2 = kmeans(transactions2[,c(2,3)],centers = 2)
 rownames(transactions2) = c(transactions2$Sub.Category)
+
+
+#Visualizing the clusters
 fviz_cluster(kms2,data = transactions2[,c(2,3)])
 ```
