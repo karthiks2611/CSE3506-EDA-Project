@@ -120,3 +120,17 @@ rownames(transactions2) = c(transactions2$Sub.Category)
 #Visualizing the clusters
 fviz_cluster(kms2,data = transactions2[,c(2,3)])
 ```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(stringr)
+data <- read.csv('Superstore.csv')
+data[c('Day','Month','Year')] = str_split_fixed(data$Order.Date,'-',3)
+data = data[, !(colnames(data) %in%  c("Postal.Code","Product.Name","Product.ID","Row.ID","Ship.Date","Ship.Mode","Ship.Date","Customer.ID","Order.ID","Order.Date"))]
+str(data)
+monthly_profit = data %>% group_by(Month,Year,Segment) %>% summarise(median(Profit))
+colnames(monthly_profit) = c("Month","Year","Segment","Profit")
+ggplot(monthly_profit,aes(x = Month,y = Profit,fill = Segment)) + geom_bar(stat="identity")
+ggplot(monthly_profit,aes(x = Month,y = Profit,group=1)) + geom_line(aes(color=factor(Segment)))
+```
